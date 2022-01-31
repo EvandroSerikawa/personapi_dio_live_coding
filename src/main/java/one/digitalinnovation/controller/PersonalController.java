@@ -4,6 +4,7 @@ package one.digitalinnovation.controller;
 // Utilizar a classe service
 
 
+import one.digitalinnovation.dto.request.PersonDTO;
 import one.digitalinnovation.dto.response.MessageResponseDTO;
 import one.digitalinnovation.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,12 @@ public class PersonalController {
     public MessageResponseDTO createPerson( @RequestBody @Valid PersonDTO personDTO) {  // Requisição ( Informação JSON )
             return personService.createPerson(personDTO);
     }
+
+    @GetMapping
+    public List<PersonDTO> ListAll(){
+       return personService.listAll();
     }
+
+
+}
 
