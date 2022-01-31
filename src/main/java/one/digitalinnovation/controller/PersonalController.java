@@ -5,8 +5,9 @@ package one.digitalinnovation.controller;
 
 
 import one.digitalinnovation.dto.response.MessageResponseDTO;
-import one.digitalinnovation.repository.PersonRepository;
+import one.digitalinnovation.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,21 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping ("/api/v1/people")
 public class PersonalController {
 
-    private PersonRepository personRepository;
 
-    @Autowired  // CONSTRUTOR
-    public PersonRepository(PersonRepository personRepository){
-        this.personRepository = personRepository;
+    private PersonService personService;
+
+    @Autowired
+    public PersonalController(PersonService personService) {
+        this.personService = personService;
     }
-
-
 
     @PostMapping
-    public MessageResponseDTO createPerson(@RequestBody  Person person) {  // Requisição ( Informação JSON )
-        person savedPerson = personRepository.save(person);
-        return MessageResponseDTO
-                .builder()
-                .message("Created person with ID " + savedPerson.getID())
-                .build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponseDTO createPerson( @RequestBody @Valid PersonDTO personDTO) {  // Requisição ( Informação JSON )
+            return personService.createPerson(personDTO);
     }
-}
+    }
+
